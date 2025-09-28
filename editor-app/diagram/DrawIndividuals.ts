@@ -138,11 +138,15 @@ export function hoverIndividuals(ctx: DrawContext) {
 
 function individualTooltip(individual: Individual) {
   let tip = "<strong>Individual</strong>";
-  if (individual.name) tip += "<br/> Name: " + individual.name;
-  if (individual.type) tip += "<br/> Type: " + individual.type.name;
+  if (individual.name) tip += "<br/> Name: " + chopString(individual.name, 45);
+  if (individual.type) tip += "<br/> Type: " + chopString(individual.type.name, 45);
   if (individual.description)
-    tip += "<br/> Description: " + individual.description;
+    tip += "<br/> Description: <br/>" + chopString(individual.description, 50);
   return tip;
+}
+
+function chopString(str: string, len: Number){
+  return str.replace(new RegExp(`.{${len}}`, 'g'), '$&' + "<br/>");
 }
 
 export function clickIndividuals(

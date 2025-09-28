@@ -5,8 +5,8 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import { Model } from "@/lib/Model";
 import { ConfigData } from "@/diagram/config";
-
 import { saveFile, loadFile } from "./save_load";
 
 const _ = require("lodash");
@@ -16,10 +16,11 @@ interface Props {
   setConfigData: Dispatch<SetStateAction<ConfigData>>;
   showConfigModal: boolean;
   setShowConfigModal: Dispatch<SetStateAction<boolean>>;
+  dataset: Model;
 }
 
 const SetConfig = (props: Props) => {
-  const { configData, setConfigData, showConfigModal, setShowConfigModal } =
+  const { configData, setConfigData, showConfigModal, setShowConfigModal, dataset  } =
     props;
 
   const [inputs, setInputs] = useState(configData);
@@ -37,20 +38,31 @@ const SetConfig = (props: Props) => {
         const loadedConfig = JSON.parse(json);
         setInputs(loadedConfig);
         setUploadError("");
+        // Now write activity colour setting to each activity (if present)
+        dataset.activities.forEach( a => {
+          a.colour = loadedConfig.activityColourArray[a.id];
+        }) 
       })
       .catch((e: any) => {
         setUploadError(
           "Failed to upload. Choose another file to try again."
         );
         console.error(e);
-      });
+      }); 
   }
 
   const handleClose = () => {
+    // Write activity uuid,colour pairs to array
     setShowConfigModal(false);
   };
   const handleShow = () => {
     setInputs(configData);
+    configData.activityColourArray = {};
+    dataset.activities.forEach( a => {
+      if (typeof(a.colour) != 'undefined'){
+        configData.activityColourArray[a.id] = a.colour;
+      }
+    })  
   };
   const handleAdd = (event: any) => {
     event.preventDefault();

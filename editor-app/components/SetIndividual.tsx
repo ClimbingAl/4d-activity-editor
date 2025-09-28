@@ -246,6 +246,16 @@ const SetIndividual = (props: Props) => {
                 className="form-control"
               />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="formIndividualColour">
+              <Form.Label>Colour</Form.Label>
+              <Form.Control
+                type="text"
+                name="colour"
+                value={inputs?.colour}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </Form.Group>
             <Form.Group
               className="mb-3"
               controlId="formIndividualBeginsWithParticipant"

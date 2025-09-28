@@ -3,6 +3,7 @@ export interface Activity {
   name: string;
   type: string;
   description?: string;
+  colour?: string;
   beginning: number;
   ending: number;
   participations?: Map<string, Participation>;
@@ -171,6 +172,7 @@ export function generateDummyActivities2() {
     name: "Picking up the runner",
     type: "action",
     description: "doing a thing",
+    colour: "#4287f5",
     beginning: 3,
     ending: 4,
     participations: participations1,
@@ -181,6 +183,7 @@ export function generateDummyActivities2() {
     name: "Doing some torque",
     type: "action",
     description: "doing another thing",
+    colour: "#419412",
     beginning: 5,
     ending: 7,
     participations: participations2,
@@ -190,7 +193,8 @@ export function generateDummyActivities2() {
     id: "3",
     name: "Passing validation",
     type: "action",
-    description: "doing another thing",
+    description: "doing another thing",    
+    colour: "#d17e1f",
     beginning: 1,
     ending: 2.5,
     participations: participations3,

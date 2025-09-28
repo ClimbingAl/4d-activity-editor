@@ -71,13 +71,46 @@ export function drawActivities(ctx: DrawContext) {
     .attr("stroke-dasharray", config.presentation.activity.strokeDasharray)
     .attr("stroke-width", config.presentation.activity.strokeWidth)
     .attr("fill", (a: Activity, i: number) => {
-      return config.presentation.activity.fill[
-        i % config.presentation.activity.fill.length
-      ];
+      if (typeof a.colour!='undefined'){
+        return a.colour;
+      } else {
+        return config.presentation.activity.fill[   
+          i % config.presentation.activity.fill.length
+        ]
+      }
     })
     .attr("opacity", config.presentation.activity.opacity);
 
   labelActivities(ctx, x, timeInterval, startOfTime);
+
+  // Place date-time value of left and right extents of diagram
+  svgElement
+    .selectAll(".timeLabelBeginning")
+    .data(activities.values())
+    .join("text")
+    .attr("class", "activityLabel")
+    .attr("id", `beginningTime`)
+    .attr("x", x)
+    .attr("y", config.layout.individual.topMargin)
+    .attr("text-anchor", "middle")
+    .attr("font-family", "Roboto, Arial, sans-serif")
+    .attr("font-size", "0.5em")
+    .attr("fill", config.labels.activity.color)
+    .text(chopString(new Date(startOfTime * 1000).toUTCString(), 17, "\n"));
+
+  svgElement
+    .selectAll(".timeLabelEnding")
+    .data(activities.values())
+    .join("text")
+    .attr("class", "activityLabel")
+    .attr("id", `endingTime`)
+    .attr("x", x + timeInterval * (endOfTime - startOfTime))
+    .attr("y", config.layout.individual.topMargin)
+    .attr("text-anchor", "middle")
+    .attr("font-family", "Roboto, Arial, sans-serif")
+    .attr("font-size", "0.5em")
+    .attr("fill", config.labels.activity.color)
+    .text(chopString(new Date(endOfTime * 1000).toUTCString(), 17, "\n"));
 
   return svgElement;
 }
@@ -187,14 +220,18 @@ export function hoverActivities(ctx: DrawContext) {
 function activityTooltip(ctx: DrawContext, activity: Activity) {
   let tip = "<strong>Activity</strong>";
   if (activity.name) tip += "<br/> Name: " + activity.name;
-  if (activity.type) tip += "<br/> Type: " + activity.type.name;
-  if (activity.description) tip += "<br/> Description: " + activity.description;
+  if (activity.type) tip += "<br/> Type: " + chopString(activity.type.name, 45, "<br/>");
+  if (activity.description) tip += "<br/> Description: <br/>" + chopString(activity.description, 50, "<br/>");
   if (activity.beginning !== undefined)
-    tip += "<br/> Beginning: " + activity.beginning;
-  if (activity.ending) tip += "<br/> Ending: " + activity.ending;
+    tip += "<br/> Beginning: " + (new Date(activity.beginning * 1000).toUTCString());
+  if (activity.ending) tip += "<br/> Ending: " + (new Date(activity.ending * 1000).toUTCString());
   if (ctx.dataset.hasParts(activity.id))
     tip += "<br/> Has sub-tasks";
   return tip;
+}
+
+function chopString(str: string, len: Number, rtn: string){
+  return str.replace(new RegExp(`.{${len}}`, 'g'), '$&' + rtn);
 }
 
 export function clickActivities(

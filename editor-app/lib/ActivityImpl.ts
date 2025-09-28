@@ -9,6 +9,7 @@ export class ActivityImpl implements Activity {
   name: string;
   type: Kind;
   description?: string;
+  colour?: string;
   beginning: number;
   ending: number;
   participations: Map<string, Participation>;
@@ -21,6 +22,7 @@ export class ActivityImpl implements Activity {
     beginning: number,
     ending: number,
     description?: string,
+    colour?: string,
     partOf?: string
   ) {
     this.id = id;
@@ -30,6 +32,11 @@ export class ActivityImpl implements Activity {
     this.ending = ending;
     if (description) {
       this.description = description;
+    }
+    if (colour) {
+      this.colour = colour;
+    } else {
+      this.colour = "";
     }
     this.participations = new Map<string, Participation>();
     this.partOf = partOf;

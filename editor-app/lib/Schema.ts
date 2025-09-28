@@ -16,6 +16,7 @@ export interface STExtent {
   name: string;
   type: Maybe<Kind>;
   description?: string;
+  colour?: string;
   beginning: number;
   ending: number;
 }

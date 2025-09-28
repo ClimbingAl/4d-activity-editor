@@ -41,6 +41,7 @@ const SetActivity = (props: Props) => {
     name: "",
     type: dataset.defaultActivityType,
     description: "",
+    colour: "",
     beginning: 0,
     ending: 1,
     participations: new Map<string, Participation>(),
@@ -272,6 +273,16 @@ const SetActivity = (props: Props) => {
                 type="text"
                 name="description"
                 value={inputs.description}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formIndividualColour">
+              <Form.Label>Colour Code</Form.Label>
+              <Form.Control
+                type="text"
+                name="colour"
+                value={inputs.colour}
                 onChange={handleChange}
                 className="form-control"
               />

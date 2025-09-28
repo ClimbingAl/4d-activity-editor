@@ -187,6 +187,7 @@ export default function ActivityDiagramWrap() {
               setConfigData={setConfigData}
               showConfigModal={showConfigModal}
               setShowConfigModal={setShowConfigModal}
+              dataset={dataset}
             />
             <ExportSvg dataset={dataset} svgRef={svgRef} />
             <ExportJson dataset={dataset} />

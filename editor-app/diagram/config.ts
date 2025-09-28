@@ -63,6 +63,7 @@ export interface ConfigData {
       maxChars: number;
     };
   };
+  activityColourArray: {[key: string]: string | undefined}; // [uuid, colour]
 }
 
 export const config: ConfigData = {
@@ -138,5 +139,6 @@ export const config: ConfigData = {
       "fontSize": "0.7em",
       "maxChars": 24
     }
-  }
+  },
+  activityColourArray: {}
 };

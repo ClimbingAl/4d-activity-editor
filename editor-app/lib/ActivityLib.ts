@@ -26,6 +26,9 @@ import {
 import { IndividualImpl } from "./IndividualImpl";
 import { Kind, Model } from "./Model";
 import { EDITOR_VERSION } from "./version";
+import { config } from "process";
+import { ConfigData } from "@/diagram/config";
+
 
 /**
  * ActivityLib
